@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * Implements hook_permission().
+ * Set Permission Definitions.
+ */
+function writer_permission() {
+    $permissions = array(
+        'edit_writer_settings' => array(
+            'title' => t("Edit writer settings"),
+        ),
+    );
+}
+
+/**
+ * Implements hook_menu().
+ * Creates menu items and routes.
+ */
+function writer_menu() {
+    $menu_items = array();
+
+    $menu_items['writer/test'] = array(
+        'title' => t("test route"),
+        'page callback' => 'writer_test_route',
+        'access arguments' => array('edit_writer_settings')
+    );
+
+    return $menu_items;
+}
+
+function writer_test_route() {
+    $html = "<h2>Hello Test</h2>";
+    return $html;
+}
