@@ -32,3 +32,91 @@ function writer_test_route() {
     $html = "<h2>Hello Test</h2>";
     return $html;
 }
+
+// /**
+//  * Implements hook_field_formatter_info().
+//  * Tell Backdrop about field formatter.
+//  * 
+//  * @see writer_field_formatter_view()
+//  */
+// function writer_field_formatter_info() {
+//     return array(
+//         // Formatter to display markdown editor
+//         'field_example_simple_text' => array(
+//             'label' => t('Simple text-based formatter'),
+//             'field types' => array('field_example_rgb'),
+//           ),
+//     );
+// }
+
+/**
+ * Implements hook_field_formatter_view().
+ * Implementation of markdown editor field.
+ * 
+ * @see writer_field_formatter_info()
+ */
+function writer_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+    $element = array();
+
+    switch ($display['type']) {
+        // This formatter simply outputs the field as text and with a color.
+        case 'field_example_simple_text':
+          foreach ($items as $delta => $item) {
+            $element[$delta] = array(
+              // We create a render array to produce the desired markup,
+              // "<p style="color: #hexcolor">The color code ... #hexcolor</p>".
+              // See theme_head_tag().
+              '#type' => 'head_tag',
+              '#tag' => 'p',
+              '#attributes' => array(
+                'style' => 'color: ' . $item['rgb'],
+              ),
+              '#value' => t('The color code in this field is @code', array('@code' => $item['rgb'])),
+            );
+          }
+          break;
+      }
+    
+      return $element;
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function writer_field_widget_info() {
+    return array(
+        'field_example_text' => array(
+          'label' => t('Test text widget :)'),
+          'field types' => array('text_long'),
+        ),
+      );
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function writer_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+    dpm($items[$delta]);
+    $value = isset($items[$delta]['text_long']) ? $items[$delta]['rgb'] : '';
+
+    $widget = $element;
+    $widget['#delta'] = $delta;
+
+    switch ($instance['widget']['type']) {
+
+        case 'field_example_text':
+        $widget += array(
+            '#type' => 'textfield',
+            '#default_value' => $value,
+            // Allow a slightly larger size that the field length to allow for some
+            // configurations where all characters won't fit in input field.
+            '#size' => 7,
+            '#maxlength' => 7,
+            );
+          break;
+    
+      }
+    
+      $element['text_long'] = $widget;
+      return $element;    
+}
