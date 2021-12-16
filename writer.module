@@ -41,7 +41,7 @@ function writer_test_route() {
  */
 function writer_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
     $element = array();
-    dpm("Hello formatter view");
+
     switch ($display['type']) {
         // This formatter simply outputs the field as field input.
         case 'field_example_simple_text':
@@ -78,11 +78,6 @@ function writer_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function writer_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-    dpm($form_state);
-    // $value = isset($items[$delta]['field_test_text_long']) ? $items[$delta]['field_test_text_long'] : '';
-    dpm($field);
-    dpm($items);
-    dpm($delta);
     $value = isset($items[$delta]['value']) ? $items[$delta]['value'] : '';
     $widget = $element;
     $widget['#delta'] = $delta;
@@ -105,17 +100,3 @@ function writer_field_widget_form(&$form, &$form_state, $field, $instance, $lang
       $element['value'] = $widget;
       return $element;    
 }
-
-/**
- * Validate Markdown block
- * Implements hook_validate().
- */
-// function writer_field_example_text_validate($element, &$form_state) {
-//     $delta = $element['#delta'];
-//     dpm($element);
-//     $field = $form_state['field'][$element['#field_name']][$element['#language']]['field'];
-//     dpm($form_state);
-
-//     form_set_value($element, $value, $form_state);
-
-// }
