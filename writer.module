@@ -31,7 +31,6 @@ function writer_field_widget_form(&$form, &$form_state, $field, $instance, $lang
     $value = isset($items[$delta]['value']) ? $items[$delta]['value'] : '';
     $widget = $element;
     $widget['#delta'] = $delta;
-    dpm(backdrop_get_path('module', 'writer') . '/js/build/app.bundle.js');
 
     switch ($instance['widget']['type']) {
 
