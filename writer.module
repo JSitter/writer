@@ -47,11 +47,9 @@ function writer_field_widget_form(&$form, &$form_state, $field, $instance, $lang
             $element['#suffix'] = '</div>';
 
             $element['#type'] = 'textarea';
-            // $element['#attributes'] = array('id' => array('writer-block'));
-            $widget = $element;
             break;
       }
     
-      $element['value'] = $widget;
+      $element['value'] = $element;
       return $element;    
 }
