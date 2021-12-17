@@ -13,27 +13,6 @@ function writer_permission() {
 }
 
 /**
- * Implements hook_menu().
- * Creates menu items and routes.
- */
-function writer_menu() {
-    $menu_items = array();
-
-    $menu_items['writer/test'] = array(
-        'title' => t("test route"),
-        'page callback' => 'writer_test_route',
-        'access arguments' => array('edit_writer_settings')
-    );
-
-    return $menu_items;
-}
-
-function writer_test_route() {
-    $html = "<h2>Hello Test</h2>";
-    return $html;
-}
-
-/**
  * Implements hook_field_widget_info().
  */
 function writer_field_widget_info() {
@@ -52,15 +31,25 @@ function writer_field_widget_form(&$form, &$form_state, $field, $instance, $lang
     $value = isset($items[$delta]['value']) ? $items[$delta]['value'] : '';
     $widget = $element;
     $widget['#delta'] = $delta;
+    dpm(backdrop_get_path('module', 'writer') . '/js/build/app.bundle.js');
 
     switch ($instance['widget']['type']) {
 
         case 'writer_block_widget':
         $widget += array(
             '#type' => 'textarea',
-            '#prefix' => "<div id='writer-block'>",
-            '#suffix' => "</div>",
             '#default_value' => $value,
+            '#attributes' => array('id' => array('writer-block')),
+            '#attached' => array(
+                'js' => array(
+                    'data' => backdrop_get_path('module', 'writer') . '/js/build/app.bundle.js',
+                    'group' => JS_DEFAULT,
+                    'every_page' => FALSE,
+                    'type' => 'file',
+                    'preprocess' => FALSE,
+                    'scope' => 'footer',
+                ),
+            ),
             );
           break;
       }
