@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 
 const App = () => {
-    let val = Drupal.settings.writer.textfield;
+    let val = Backdrop.settings.writer.textfield;
     return (
         <div>{val}</div>
     )
