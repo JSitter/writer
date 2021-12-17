@@ -34,35 +34,6 @@ function writer_test_route() {
 }
 
 /**
- * Implements hook_field_formatter_view().
- * Implementation of markdown editor field.
- * 
- * @see writer_field_formatter_info()
- */
-// function writer_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-//     $element = array();
-
-//     switch ($display['type']) {
-//         // This formatter simply outputs the field as field input.
-//         case 'field_example_simple_text':
-//           foreach ($items as $delta => $item) {
-//             $element[$delta] = array(
-//               // See theme_head_tag().
-//               '#type' => 'head_tag',
-//               '#tag' => 'p',
-//               '#attributes' => array(
-//                 'style' => 'color: ' . $item['rgb'],
-//               ),
-//               '#value' => t('This is #value data :)'),
-//             );
-//           }
-//           break;
-//       }
-    
-//       return $element;
-// }
-
-/**
  * Implements hook_field_widget_info().
  */
 function writer_field_widget_info() {
