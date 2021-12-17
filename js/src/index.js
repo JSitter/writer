@@ -2,8 +2,9 @@ import React from 'react';
 import { render } from 'react-dom';
 
 const App = () => {
+    let val = Drupal.settings.writer.textfield;
     return (
-        <div>Hello React</div>
+        <div>{val}</div>
     )
 }
 
