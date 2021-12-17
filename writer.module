@@ -36,22 +36,22 @@ function writer_field_widget_form(&$form, &$form_state, $field, $instance, $lang
     switch ($instance['widget']['type']) {
 
         case 'writer_block_widget':
-        $widget += array(
-            '#type' => 'textarea',
-            '#default_value' => $value,
-            '#attributes' => array('id' => array('writer-block')),
-            '#attached' => array(
-                'js' => array(
-                    'data' => backdrop_get_path('module', 'writer') . '/js/build/app.bundle.js',
-                    'group' => JS_DEFAULT,
-                    'every_page' => FALSE,
-                    'type' => 'file',
-                    'preprocess' => FALSE,
-                    'scope' => 'footer',
+            $widget += array(
+                '#type' => 'textarea',
+                '#default_value' => $value,
+                '#attributes' => array('id' => array('writer-block')),
+                '#attached' => array(
+                    'js' => array(
+                        'data' => backdrop_get_path('module', 'writer') . '/js/build/app.bundle.js',
+                        'group' => JS_DEFAULT,
+                        'every_page' => FALSE,
+                        'type' => 'file',
+                        'preprocess' => FALSE,
+                        'scope' => 'footer',
+                    ),
                 ),
-            ),
             );
-          break;
+            break;
       }
     
       $element['value'] = $widget;
