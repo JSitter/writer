@@ -18,7 +18,7 @@ function writer_permission() {
 function writer_field_widget_info() {
     return array(
         'writer_block_widget' => array(
-          'label' => t("Writer's block"),
+          'label'       => t("Writer's block"),
           'field types' => array('text_long'),
         ),
       );
@@ -28,28 +28,39 @@ function writer_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function writer_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-    $value = isset($items[$delta]['value']) ? $items[$delta]['value'] : '';
+    
     $widget = $element;
     $widget['#delta'] = $delta;
 
     switch ($instance['widget']['type']) {
 
         case 'writer_block_widget':
-            // Allow React access to default field value
-            backdrop_add_js(array('writer'=>array("textfield" => $value)), 'setting');
-            $element['#attached']['js'][] = array(
+            // Get Backdrop field data
+            $field_id = 'edit-'.$element['#field_name'].'-' . $element['#language'] . '-' . $element['#delta'];
+            $field_value = isset($items[$delta]['value']) ? $items[$delta]['value'] : '';
+            $field_name = $element['#field_name'] . '[' . $element['#language'] . '][' . $element['#delta'] . '][value]';
+
+            // Pass Backdrop data to React App
+            backdrop_add_js(array('writer' => array('field_id'      => $field_id )), 'setting');
+            backdrop_add_js(array('writer' => array("field_value"    => $field_value)), 'setting');
+            backdrop_add_js(array('writer' => array("field_name"    => $field_name)), 'setting');
+
+            // Attach React app to footer
+            $widget['#attached']['js'][] = array(
                 'type'      => 'file',
                 'data'      => backdrop_get_path('module', 'writer') . '/js/build/app.bundle.js',
                 'scope'     => 'footer',
                 'weight'    => 5,
               );
-            $element['#prefix'] = '<div id="writer-block">';
-            $element['#suffix'] = '</div>';
 
-            $element['#type'] = 'textarea';
+            // Wrap form input with React app selector
+            $widget['#prefix'] = "<div id='$field_id'>";
+            $widget['#type'] = 'textarea';
+            $widget['#suffix'] = '</div>';
+            
             break;
       }
     
-      $element['value'] = $element;
+      $element['value'] = $widget;
       return $element;    
 }
