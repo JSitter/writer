@@ -18,7 +18,7 @@ function writer_permission() {
 function writer_field_widget_info() {
     return array(
         'writer_block_widget' => array(
-          'label'       => t("Writer's block"),
+          'label'       => t("Wordsmith widget"),
           'field types' => array('text_long'),
         ),
       );
@@ -42,7 +42,7 @@ function writer_field_widget_form(&$form, &$form_state, $field, $instance, $lang
 
             // Pass Backdrop data to React App
             backdrop_add_js(array('writer' => array('field_id'      => $field_id )), 'setting');
-            backdrop_add_js(array('writer' => array("field_value"    => $field_value)), 'setting');
+            backdrop_add_js(array('writer' => array("field_value"   => $field_value)), 'setting');
             backdrop_add_js(array('writer' => array("field_name"    => $field_name)), 'setting');
 
             // Attach React app to footer
@@ -54,9 +54,9 @@ function writer_field_widget_form(&$form, &$form_state, $field, $instance, $lang
               );
 
             // Wrap form input with React app selector
-            $widget['#prefix'] = "<div id='$field_id'>";
-            $widget['#type'] = 'textarea';
-            $widget['#suffix'] = '</div>';
+            $widget['#prefix']  = "<div id='$field_id'>";
+            $widget['#type']    = 'textarea';
+            $widget['#suffix']  = '</div>';
             
             break;
       }
